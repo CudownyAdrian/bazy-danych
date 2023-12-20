@@ -25,7 +25,7 @@ group by w.nazwa;
 select w.nazwa,e.idEtapu,s.nazwa,k.nazwa from wyprawa w inner join kreatura k on w.kierownik=k.idKreatury
 inner join etapy_wyprawy e on w.id_wyprawy=e.idWyprawy 
 inner join sektor s on e.sektor=s.id_sektora
-order by w.data_rozpoczecia,idEtapu;
+order by w.data_rozpoczecia,e.kolejnosc;
 ```
 
 # Zadanie 3
