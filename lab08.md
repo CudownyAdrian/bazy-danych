@@ -30,5 +30,23 @@ order by w.data_rozpoczecia,e.kolejnosc;
 
 # Zadanie 3
 ```sql
-select s.nazwa,count(e.sektor) from sektor s inner join etapy_wyprawy e on s.id_sektora=e.sektor group by s.nazwa
+select s.nazwa,ifnull(count(e.sektor),0) as ilosc_odwiedzin  from sektor s left join etapy_wyprawy e on s.id_sektora=e.sektor group by s.nazwa;
+```
+```sql
+select k.nazwa,if(count(id_uczestnika)>0,'bral udzial w wyprawie','nie bral udzialu w wyprawie') from kreatura k left join uczestnicy u on k.idKreatury=u.id_uczestnika group by k.nazwa;
+```
+
+# Zadanie 4
+```sql
+select w.nazwa,sum(length(dziennik)) from wyprawa w inner join etapy_wyprawy e on w.id_wyprawy=e.idWyprawy group by w.nazwa having sum(length(dziennik))<400;
+```
+```sql
+select u.id_wyprawy,sum(waga*z.ilosc)/count(distinct id_uczestnika) from uczestnicy u inner join ekwipunek e on u.id_uczestnika=e.idKreatury 
+inner join wyprawa w on u.id_wyprawy=w.id_wyprawy 
+inner join zasob z on e.idZasobu=z.idZasobu  group by w.id_wyprawy;
+```
+
+# Zadanie 5
+```sql
+select k.nazwa,datediff(w.data_rozpoczecia,k.dataur) from kreatura k inner join uczestnicy u on k.idKreatury=u.id_uczestnika inner join wyprawa w on u.id_wyprawy=w.id_wyprawy inner join etapy_wyprawy ew on w.id_wyprawy=ew.idWyprawy inner join sektor s on ew.sektor=s.id_sektora where s.nazwa='Chatka dziadka';
 ```
