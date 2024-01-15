@@ -50,7 +50,7 @@ select pelna_nazwa,sum(ilosc*cena) from klient k inner join zamowienie z on k.id
 ```
 ## Zad3
 ```sql
-
+select year(data_zamowienia),sum(cena * ilosc) as suma from zamowienie z inner join pozycja_zamowienia p on z.id_zamowienia=p.zamowienie group by year(data_zamowienia) order by suma desc;
 ```
 ## Zad4
 ```sql
