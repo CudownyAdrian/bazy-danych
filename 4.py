@@ -1,10 +1,11 @@
 class Romanian:
-    def __init__(self, value):
-        self.value = value
+    def __init__(self,value):
+            self.value=self.to_arab(value)
+            self.roman={"I":1,"V":5,"X":10,"L":50,"C":100,"D":500,"M":1000}
+            self.arab={value:key for key,value in self.roman.items()}
 
     def __add__(self, other):
         return Romanian(self.value + other.value)
-
     def __sub__(self, other):
         return Romanian(self.value - other.value)
 
@@ -37,14 +38,19 @@ class Romanian:
         return roman_numeral
     def to_arab(self,n):
         arab=0
-        roman={"I":1,"V":5,"X":10,"L":50,"C":100,"D":500,"M":1000}
-        x=0
-        for char in reversed(roman):
-            value
+        i=0
+        while i<len(n):
+            if i+1<len(n) and n[i:i+2] in self.roman:
+                arab+=self.roman([n[i:i+2]])
+                i+=2
+            else:
+                arab+=self.roman[n[i]]
+        return arab
 a=Romanian(100)
 b=Romanian(70)
-
-
+c=Romanian("XV")
+d=Romanian("D")
 print("a + b =", a + b)
 print("a - b =", a - b)
 print("a * b =", a * b)
+print(d+c)
