@@ -1,0 +1,178 @@
+class Car:
+    def __init__(self, marka, rok_produkcji):
+        self.marka = marka
+        self.rok_produkcji = rok_produkcji
+car1 = Car("Toyota", 2015)
+car2 = Car("BMW", 2018)
+print("Dane samochodu car2:")
+print("Marka:", car2.marka)
+print("Rok produkcji:", car2.rok_produkcji)
+car1 = car2
+print("\nPo przypisaniu car1 = car2:")
+print("Marka:", car1.marka)
+print("Rok produkcji:", car1.rok_produkcji)
+
+
+class Owoc:
+    def __init__(self, kolor, waga):
+        self.kolor = kolor
+        self.waga = waga
+
+    def jest_swiezy(self):
+        
+        return True
+
+
+class Jablko(Owoc):
+    def __init__(self, kolor="czerwony", waga=100):
+        super().__init__(kolor, waga)
+
+
+class Banan(Owoc):
+    def __init__(self, kolor="żółty", waga=120):
+        super().__init__(kolor, waga)
+
+
+class Pomarancza(Owoc):
+    def __init__(self, kolor="pomarańczowy", waga=150):
+        super().__init__(kolor, waga)
+
+    def jest_swiezy(self):
+        
+        return self.kolor == "pomarańczowy"
+
+
+
+
+jablko = Jablko()
+banan = Banan()
+pomarancza = Pomarancza()
+
+print("Jablko:")
+print("Kolor:", jablko.kolor)
+print("Waga:", jablko.waga)
+print("Czy jest świeże?", jablko.jest_swiezy())
+
+print("\nBanan:")
+print("Kolor:", banan.kolor)
+print("Waga:", banan.waga)
+print("Czy jest świeży?", banan.jest_swiezy())
+
+print("\nPomarancza:")
+print("Kolor:", pomarancza.kolor)
+print("Waga:", pomarancza.waga)
+print("Czy jest świeża?", pomarancza.jest_swiezy())
+
+
+class Account:
+    def __init__(self, saldo_poczatkowe):
+        self.saldo = saldo_poczatkowe
+
+    def przelew_wewnetrzny(self, konto_docelowe, kwota):
+        if kwota <= self.saldo:
+            self.saldo -= kwota
+            konto_docelowe.saldo += kwota
+            print("Przelew zakończony pomyślnie.")
+        else:
+            print("Nie masz wystarczających środków na koncie.")
+
+    def wplata(self, kwota):
+        self.saldo += kwota
+        print("Wpłata zakończona pomyślnie. Aktualne saldo:", self.saldo)
+
+    def wyplata(self, kwota):
+        if kwota <= self.saldo:
+            self.saldo -= kwota
+            print("Wypłata zakończona pomyślnie. Aktualne saldo:", self.saldo)
+        else:
+            print("Nie masz wystarczających środków na koncie.")
+
+
+class PrivatAccount(Account):
+    def przelew_wynagrodzenia(self, kwota):
+        self.saldo += kwota
+        print("Przelew wynagrodzenia zakończony pomyślnie. Aktualne saldo:", self.saldo)
+
+
+class FirmAccount(Account):
+    def przelew_do_ZUS(self, kwota):
+        self.saldo -= kwota
+        print("Przelew do ZUS zakończony pomyślnie. Aktualne saldo:", self.saldo)
+
+    def przelew_do_US(self, kwota):
+        self.saldo -= kwota
+        print("Przelew do US zakończony pomyślnie. Aktualne saldo:", self.saldo)
+
+
+
+
+konto1 = Account(1000)
+konto2 = PrivatAccount(2000)
+konto3 = FirmAccount(3000)
+
+print("Salda początkowe:")
+print("Konto 1:", konto1.saldo)
+print("Konto 2:", konto2.saldo)
+print("Konto 3:", konto3.saldo)
+
+print("\nWykonujemy różne operacje:")
+
+konto1.wplata(500)
+konto1.przelew_wewnetrzny(konto2, 300)
+konto2.przelew_wynagrodzenia(1000)
+konto3.przelew_do_ZUS(200)
+konto3.wyplata(1000)
+
+print("\nSalda końcowe:")
+print("Konto 1:", konto1.saldo)
+print("Konto 2:", konto2.saldo)
+print("Konto 3:", konto3.saldo)
+
+
+class Romanian:
+    def __init__(self, value):
+        self.value = value
+
+    def __add__(self, other):
+        return Romanian(self.value + other.value)
+
+    def __sub__(self, other):
+        return Romanian(self.value - other.value)
+
+    def __mul__(self, other):
+        return Romanian(self.value * other.value)
+
+    def __str__(self):
+        return self.to_roman(self.value)
+
+    def to_roman(self, n):
+        val = [
+            1000, 900, 500, 400,
+            100, 90, 50, 40,
+            10, 9, 5, 4,
+            1
+        ]
+        syb = [
+            "M", "CM", "D", "CD",
+            "C", "XC", "L", "XL",
+            "X", "IX", "V", "IV",
+            "I"
+        ]
+        roman_numeral = ''
+        i = 0
+        while n > 0:
+            for _ in range(n // val[i]):
+                roman_numeral += syb[i]
+                n -= val[i]
+            i += 1
+        return roman_numeral
+
+
+
+
+a = Romanian(10)
+b = Romanian(5)
+
+print("a + b =", a + b)
+print("a - b =", a - b)
+print("a * b =", a * b)
